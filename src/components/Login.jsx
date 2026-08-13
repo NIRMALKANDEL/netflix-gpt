@@ -1,11 +1,28 @@
 import Header from "./Header";
 import BG_img from "../assets/Netflix_BG.jpg";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { checkValidData } from "../utils/validate";
 
 const Login = () => {
   const [showSignInForm, setShowSignInForm] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const email = useRef(null);
+  const password = useRef(null);
+  const fullName = useRef(null);
+
+  const handleButtonClick = (event) => {
+    // validate form data
+    event.preventDefault(); // Prevent form submission
+    const message = checkValidData(email.current.value, password.current.value, showSignInForm?"":fullName.current.value);
+    setErrorMessage(message);
+
+      // sign in / sign up
+
+
+  };
 
   const toggleSignInForm = () => {
+    setErrorMessage(null); // Clear error message when toggling forms
     setShowSignInForm(!showSignInForm);
   };
 
@@ -30,25 +47,32 @@ const Login = () => {
             {showSignInForm ? "Sign In" : "Sign Up"}
           </h1>
 
-          <form className="flex flex-col gap-4">
+          <form
+            onSubmit={handleButtonClick}
+            className="flex flex-col gap-4"
+          >
             {!showSignInForm && (
               <input
+              ref={fullName}
                 type="text"
                 placeholder="Full Name"
                 className="rounded bg-gray-700 px-4 py-4 text-white placeholder-gray-400 outline-none focus:bg-gray-600"
               />
             )}
             <input
+              ref={email}
               type="email"
               placeholder="Email or phone number"
               className="rounded bg-gray-700 px-4 py-4 text-white placeholder-gray-400 outline-none focus:bg-gray-600"
             />
 
             <input
+              ref={password}
               type="password"
               placeholder="Password"
               className="rounded bg-gray-700 px-4 py-4 text-white placeholder-gray-400 outline-none focus:bg-gray-600"
             />
+            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
             <button
               type="submit"
