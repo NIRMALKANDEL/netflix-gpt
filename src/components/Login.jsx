@@ -2,27 +2,73 @@ import Header from "./Header";
 import BG_img from "../assets/Netflix_BG.jpg";
 import { useState, useRef } from "react";
 import { checkValidData } from "../utils/validate";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../utils/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const Login = () => {
   const [showSignInForm, setShowSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
+
   const email = useRef(null);
   const password = useRef(null);
   const fullName = useRef(null);
 
   const handleButtonClick = (event) => {
-    // validate form data
-    event.preventDefault(); // Prevent form submission
-    const message = checkValidData(email.current.value, password.current.value, showSignInForm?"":fullName.current.value);
+    event.preventDefault();
+
+    // Validate form data
+    const message = checkValidData(
+      email.current.value,
+      password.current.value,
+      showSignInForm ? "" : fullName.current.value,
+    );
+
     setErrorMessage(message);
 
-      // sign in / sign up
+    if (message) return;
 
+    if (!showSignInForm) {
+      // Sign Up logic
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value,
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log("User signed up:", user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
 
+          setErrorMessage(`Error ${errorCode}: ${errorMessage}`);
+          console.error("Error signing up:", errorCode, errorMessage);
+        });
+    } else {
+      // Sign In logic
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value,
+      )
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log("User signed in:", user);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(`Error ${errorCode}: ${errorMessage}`);
+        });
+    }
   };
 
   const toggleSignInForm = () => {
-    setErrorMessage(null); // Clear error message when toggling forms
+    setErrorMessage(null);
     setShowSignInForm(!showSignInForm);
   };
 
@@ -42,23 +88,21 @@ const Login = () => {
 
       {/* Login Form */}
       <div className="flex min-h-screen items-center justify-center px-4">
-        <div className="w-full max-w-md bg-black/80 px-12 py-14 rounded-md">
+        <div className="w-full max-w-md rounded-md bg-black/80 px-12 py-14">
           <h1 className="mb-8 text-3xl font-bold text-white">
             {showSignInForm ? "Sign In" : "Sign Up"}
           </h1>
 
-          <form
-            onSubmit={handleButtonClick}
-            className="flex flex-col gap-4"
-          >
+          <form onSubmit={handleButtonClick} className="flex flex-col gap-4">
             {!showSignInForm && (
               <input
-              ref={fullName}
+                ref={fullName}
                 type="text"
                 placeholder="Full Name"
                 className="rounded bg-gray-700 px-4 py-4 text-white placeholder-gray-400 outline-none focus:bg-gray-600"
               />
             )}
+
             <input
               ref={email}
               type="email"
@@ -72,6 +116,7 @@ const Login = () => {
               placeholder="Password"
               className="rounded bg-gray-700 px-4 py-4 text-white placeholder-gray-400 outline-none focus:bg-gray-600"
             />
+
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
             <button
