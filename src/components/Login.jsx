@@ -5,11 +5,14 @@ import { checkValidData } from "../utils/validate";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom"; 
+
+
 
 const Login = () => {
   const [showSignInForm, setShowSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
-
+  const navigate = useNavigate(); // Hook to navigate 
   const email = useRef(null);
   const password = useRef(null);
   const fullName = useRef(null);
@@ -57,6 +60,7 @@ const Login = () => {
           // Signed in
           const user = userCredential.user;
           console.log("User signed in:", user);
+          navigate("/browse"); // Navigate to the browse page after successful sign-in
           // ...
         })
         .catch((error) => {
@@ -78,7 +82,7 @@ const Login = () => {
 
       {/* Background */}
       <img
-        src={BG_img}
+        src={BG_img} 
         alt="Netflix Background"
         className="fixed inset-0 h-full w-full object-cover -z-20"
       />
