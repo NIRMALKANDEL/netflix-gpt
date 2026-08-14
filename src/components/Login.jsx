@@ -5,14 +5,16 @@ import { checkValidData } from "../utils/validate";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from "react-router-dom"; 
-
-
+import { useNavigate } from "react-router-dom";
+import { updateProfile } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 const Login = () => {
   const [showSignInForm, setShowSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
-  const navigate = useNavigate(); // Hook to navigate 
+  const navigate = useNavigate(); // Hook to navigate
+  const dispatch = useDispatch(); // Hook to dispatch actions to Redux store
   const email = useRef(null);
   const password = useRef(null);
   const fullName = useRef(null);
@@ -40,7 +42,31 @@ const Login = () => {
       )
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log("User signed up:", user);
+
+          // update the user's display name after sign-up
+          updateProfile(user, {
+            displayName: fullName.current.value,
+            photoURL: "https://avatars.githubusercontent.com/u/98464309?v=4",
+          })
+            .then(() => {
+              // Profile updated!
+              const { uid, email, displayName, photoURL } = auth.currentUser;
+
+              dispatch(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                  photoURL: photoURL,
+                }),
+              );
+
+              navigate("/browse"); // Navigate to the browse page after successful sign-up
+            })
+            .catch((error) => {
+              // An error occurred
+              setErrorMessage(`Error updating profile: ${error.message}`);
+            });
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -61,7 +87,6 @@ const Login = () => {
           const user = userCredential.user;
           console.log("User signed in:", user);
           navigate("/browse"); // Navigate to the browse page after successful sign-in
-          // ...
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -82,13 +107,13 @@ const Login = () => {
 
       {/* Background */}
       <img
-        src={BG_img} 
+        src={BG_img}
         alt="Netflix Background"
-        className="fixed inset-0 h-full w-full object-cover -z-20"
+        className="fixed inset-0 -z-20 h-full w-full object-cover"
       />
 
       {/* Dark Overlay */}
-      <div className="fixed inset-0 bg-black/60 -z-10"></div>
+      <div className="fixed inset-0 -z-10 bg-black/60"></div>
 
       {/* Login Form */}
       <div className="flex min-h-screen items-center justify-center px-4">
@@ -136,7 +161,9 @@ const Login = () => {
                 Remember me
               </label>
 
-              <span className="cursor-pointer hover:underline">Need help?</span>
+              <span className="cursor-pointer hover:underline">
+                Need help?
+              </span>
             </div>
           </form>
 
