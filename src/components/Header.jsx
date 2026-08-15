@@ -29,13 +29,18 @@ const Header = () => {
         );
 
         navigate("/browse"); // Navigate to the browse page after sign-in
-
       } else {
         // User is signed out
         dispatch(removeUser());
         navigate("/"); // Navigate to the login page after sign-out
       }
     });
+
+    return () => {
+      // Cleanup the listener when the component unmounts
+      const unsubscribe = onAuthStateChanged(auth, () => {});
+      unsubscribe();
+    };
   }, []);
 
   const handleSignOut = () => {
@@ -67,8 +72,8 @@ const Header = () => {
               className="h-9 w-9 cursor-pointer rounded object-cover"
             />
 
-            <span className="absolute right-0 top-10 hidden whitespace-nowrap rounded bg-black px-3 py-1 text-sm text-white group-hover:block">
-              {user?.displayName}
+            <span className="absolute right-0 top-full z-50 mt-2 hidden whitespace-nowrap rounded bg-black px-3 py-1 text-sm text-white shadow-lg group-hover:block">
+              {user?.user?.displayName || "User"}
             </span>
           </div>
 

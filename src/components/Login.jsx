@@ -7,6 +7,7 @@ import { auth } from "../utils/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { updateProfile } from "firebase/auth";
 import { useDispatch } from "react-redux";
+import {USER_PHOTO_URL} from "../utils/constants";
 import { addUser } from "../utils/userSlice";
 
 const Login = () => {
@@ -44,7 +45,7 @@ const Login = () => {
           // update the user's display name after sign-up
           updateProfile(user, {
             displayName: fullName.current.value,
-            photoURL: "https://avatars.githubusercontent.com/u/98464309?v=4",
+            photoURL: USER_PHOTO_URL,
           })
             .then(() => {
               // Profile updated!
