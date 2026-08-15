@@ -3,17 +3,45 @@ import { signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom"; // Import useNavigate hook
 import { useSelector } from "react-redux"; // Import useSelector hook to access Redux state
+import { useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { addUser, removeUser } from "../utils/userSlice"; // Import actions from userSlice
 
 const Header = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate(); // Hook to navigate
   const user = useSelector((state) => state.user); // Access user state from Redux store
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // /user is signed in
+        const { uid, email, displayName, photoURL } = user;
+
+        dispatch(
+          addUser({
+            uid: uid,
+            email: email,
+            displayName: displayName,
+            photoURL: photoURL,
+          }),
+        );
+
+        navigate("/browse"); // Navigate to the browse page after sign-in
+
+      } else {
+        // User is signed out
+        dispatch(removeUser());
+        navigate("/"); // Navigate to the login page after sign-out
+      }
+    });
+  }, []);
 
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
-        navigate("/");
-        // Navigate to the login page after sign-out
       })
       .catch((error) => {
         navigate("/error");
@@ -23,11 +51,7 @@ const Header = () => {
   return (
     <header className="fixed top-0 left-0 z-50 flex h-20 w-full items-center justify-between bg-linear-to-b from-black/90 via-black/50 to-transparent px-6 md:px-12">
       {/* Netflix Logo */}
-      <img
-        src={logo}
-        alt="Netflix"
-        className="w-28 object-contain md:w-36"
-      />
+      <img src={logo} alt="Netflix" className="w-28 object-contain md:w-36" />
 
       {/* Right Side */}
       {user && window.location.pathname !== "/" && (
