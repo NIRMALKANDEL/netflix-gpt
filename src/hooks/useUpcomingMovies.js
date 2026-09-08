@@ -13,7 +13,7 @@ const useUpcomingMovies = () => {
         API_OPTIONS,
       );
       const data = await response.json();
-        console.log("upComing MOVIES,",data.result)
+
       dispatch(addUpcomingMovies(data.results)); // Dispatch the action to update the state
     } catch (error) {
       console.error(error);

@@ -1,5 +1,5 @@
 import Header from "./Header";
-import BG_img from "../assets/Netflix_BG.jpg";
+// import BG_img from "../assets/Netflix_BG.jpg";
 import { useState, useRef } from "react";
 import { checkValidData } from "../utils/validate";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -9,6 +9,7 @@ import { updateProfile } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import {USER_PHOTO_URL} from "../utils/constants";
 import { addUser } from "../utils/userSlice";
+import { BG_IMG_URL } from "../utils/constants";
 
 const Login = () => {
   const [showSignInForm, setShowSignInForm] = useState(true);
@@ -103,7 +104,7 @@ const Login = () => {
 
       {/* Background */}
       <img
-        src={BG_img}
+        src={BG_IMG_URL}
         alt="Netflix Background"
         className="fixed inset-0 -z-20 h-full w-full object-cover"
       />

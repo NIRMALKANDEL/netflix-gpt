@@ -13,7 +13,7 @@ const usePopularMovies = () => {
         API_OPTIONS,
       );
       const data = await response.json();
-        console.log("POPULAR MOVIES,",data.result)
+       
       dispatch(addPopularMovies(data.results)); // Dispatch the action to update the state
     } catch (error) {
       console.error(error);

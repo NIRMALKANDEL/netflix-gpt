@@ -13,7 +13,7 @@ const useTopRatedMovies = () => {
         API_OPTIONS,
       );
       const data = await response.json();
-        console.log("TOP RATED MOVIES,",data.result)
+      
       dispatch( addTopRatedMovies(data.results)); // Dispatch the action to update the state
     } catch (error) {
       console.error(error);
