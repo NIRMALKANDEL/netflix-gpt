@@ -1,7 +1,7 @@
 import { NETFLIX_LOGO_URL } from "../utils/constants";
 import { signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
@@ -78,7 +78,7 @@ const Header = () => {
 
       {/* Right Side */}
       {user && window.location.pathname !== "/" && (
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-3 md:gap-4">
           {/* Profile */}
           {showGptSearch && (
             <select
@@ -124,12 +124,13 @@ const Header = () => {
 
               <div className="my-2 h-px bg-gray-700"></div>
 
-              <button
-                className="w-full rounded px-2 py-1.5 text-left text-sm text-gray-300
+              <Link
+                to="/profile"
+                className="block w-full rounded px-2 py-1.5 text-left text-sm text-gray-300
                  transition hover:bg-gray-800 hover:text-white"
               >
                 Account
-              </button>
+              </Link>
             </div>
           </div>
 

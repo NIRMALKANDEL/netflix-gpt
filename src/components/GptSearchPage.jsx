@@ -1,18 +1,13 @@
 import GptMovieSuggestions from "./GptMovieSuggestions";
 import GptSearchBar from "./GptSearchBar";
-// import BG_img from "../assets/Netflix_BG.jpg";
-import {BG_IMG_URL} from "../utils/constants";
 
-const GptSearchPage = () => {
+const GptSearchPage = ({ onMovieClick }) => {
   return (
-    <div>
-        <img
-        src={BG_IMG_URL}
-        alt="Netflix Background"
-        className="fixed inset-0  h-full w-full object-cover"
-      />
+    <div className="min-h-screen bg-[#0f0f10] pt-28">
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top,rgba(16,163,127,0.14),transparent_60%)]" />
+
       <GptSearchBar />
-      <GptMovieSuggestions />
+      <GptMovieSuggestions onMovieClick={onMovieClick} />
     </div>
   );
 };

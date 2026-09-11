@@ -7,9 +7,12 @@ import useTopRatedMovies from "../hooks/useTopRatedMovies";
 import useUpcomingMovies from "../hooks/useUpcomingMovies";
 import GptSearchPage from "./GptSearchPage";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 import Footer from "./Footer";
+import MovieDetailsModal from "./MovieDetailsModal";
 const Browse = () => {
   const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
+  const [selectedMovieId, setSelectedMovieId] = useState(null);
 
   useNowPlayingMovies();
   usePopularMovies();
@@ -20,14 +23,19 @@ const Browse = () => {
     <div className="relative min-h-screen bg-black">
       <Header />
       {showGptSearch ? (
-        <GptSearchPage />
+        <GptSearchPage onMovieClick={setSelectedMovieId} />
       ) : (
         <>
-          <MainContainer />
-          <SecondaryContainer />
+          <MainContainer onMovieClick={setSelectedMovieId} />
+          <SecondaryContainer onMovieClick={setSelectedMovieId} />
           <Footer/>
         </>
       )}
+
+      <MovieDetailsModal
+        movieId={selectedMovieId}
+        onClose={() => setSelectedMovieId(null)}
+      />
     </div>
   );
 };

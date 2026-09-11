@@ -29,3 +29,8 @@ build/
 # Firebase Agent Skills
 .agents/
 skills-lock.json
+
+# Environment variables (contains API keys / secrets)
+.env
+.env.*
+!.env.example
