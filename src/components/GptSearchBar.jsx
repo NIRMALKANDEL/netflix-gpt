@@ -64,16 +64,16 @@ const GptSearchBar = () => {
   };
 
   return (
-    <div className="relative z-10 mx-auto w-full max-w-2xl px-4">
+    <div className="relative z-10 mx-auto w-full max-w-2xl px-3 sm:px-4">
       <form
-        className="flex w-full items-center gap-2 rounded-3xl border border-[#3a3b42] bg-[#2a2b32] px-3 py-2 shadow-[0_8px_30px_rgba(0,0,0,0.4)] transition-colors focus-within:border-[#10a37f]"
+        className="flex w-full min-w-0 items-center gap-1.5 rounded-3xl border border-[#3a3b42] bg-[#2a2b32] px-2 py-1.5 shadow-[0_8px_30px_rgba(0,0,0,0.4)] transition-colors focus-within:border-[#10a37f] sm:gap-2 sm:px-3 sm:py-2"
         onSubmit={(e) => e.preventDefault()}
       >
         <input
           ref={seachText}
           type="text"
           disabled={loading}
-          className="flex-1 bg-transparent px-3 py-3 text-white placeholder-gray-400 outline-none disabled:opacity-60"
+          className="min-w-0 flex-1 bg-transparent px-2 py-2 text-sm text-white placeholder-gray-400 outline-none disabled:opacity-60 sm:px-3 sm:py-3 sm:text-base"
           placeholder={placeholderText}
         />
 
@@ -81,12 +81,13 @@ const GptSearchBar = () => {
           onClick={handleGptSearchClick}
           type="submit"
           disabled={loading}
-          className="flex shrink-0 items-center gap-2 rounded-full bg-[#10a37f] px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-[#0e8f6f] hover:scale-105 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
+          className="flex shrink-0 items-center gap-1.5 rounded-full bg-[#10a37f] px-3 py-2 text-xs font-semibold text-white transition-all duration-200 hover:bg-[#0e8f6f] hover:scale-105 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100 sm:gap-2 sm:px-5 sm:py-2.5 sm:text-sm"
         >
           {loading ? (
             <>
-              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white"></span>
-              Thinking...
+              <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/40 border-t-white sm:h-4 sm:w-4"></span>
+              <span className="hidden sm:inline">Thinking...</span>
+              <span className="sm:hidden">...</span>
             </>
           ) : (
             searchtext

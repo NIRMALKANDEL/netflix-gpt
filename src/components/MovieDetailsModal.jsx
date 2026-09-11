@@ -90,18 +90,19 @@ const MovieDetailsModal = ({ movieId, onClose }) => {
       onClick={onClose}
     >
       <div
-        className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-lg bg-[#181818] text-white shadow-2xl"
+        className="relative max-h-[90vh] w-full max-w-3xl overflow-hidden rounded-lg bg-[#181818] text-white shadow-2xl"
         onClick={(event) => event.stopPropagation()}
       >
         <button
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-lg text-white transition hover:bg-black/80"
+          className="absolute right-3 top-3 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-lg text-white transition hover:bg-black/80 sm:right-4 sm:top-4"
         >
           ✕
         </button>
 
+        <div className="max-h-[90vh] overflow-y-auto">
         {loading && (
           <div className="flex min-h-80 flex-col items-center justify-center gap-3 text-gray-400">
             <span className="h-8 w-8 animate-spin rounded-full border-2 border-white/30 border-t-white"></span>
@@ -206,6 +207,7 @@ const MovieDetailsModal = ({ movieId, onClose }) => {
             </div>
           </>
         )}
+        </div>
       </div>
     </div>
   );

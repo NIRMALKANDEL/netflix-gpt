@@ -13,9 +13,25 @@ const GptMovieSuggestions = ({ onMovieClick }) => {
     );
   }
 
+  const uniqueMovies = [];
+  const seenIds = new Set();
+  movieResults.flat().forEach((movie) => {
+    if (movie?.id && !seenIds.has(movie.id)) {
+      seenIds.add(movie.id);
+      uniqueMovies.push(movie);
+    }
+  });
+
+  const bollywoodMovies = uniqueMovies.filter(
+    (movie) => movie.original_language === "hi",
+  );
+  const hollywoodMovies = uniqueMovies.filter(
+    (movie) => movie.original_language !== "hi",
+  );
+
   return (
-    <div className="relative z-10 mx-auto mt-6 w-full max-w-5xl px-4 pb-20">
-      <div className="rounded-2xl border border-[#2a2b32] bg-[#202123]/95 p-4 shadow-2xl backdrop-blur md:p-6">
+    <div className="relative z-10 mx-auto mt-6 w-full max-w-5xl px-3 pb-20 sm:px-4">
+      <div className="rounded-2xl border border-[#2a2b32] bg-[#202123]/95 p-3 shadow-2xl backdrop-blur sm:p-4 md:p-6">
         <div className="mb-2 flex items-center gap-3">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#10a37f] text-xs font-bold text-white">
             AI
@@ -25,14 +41,27 @@ const GptMovieSuggestions = ({ onMovieClick }) => {
           </p>
         </div>
 
-        {movieNames.map((movieName, index) => (
+        {hollywoodMovies.length === 0 && bollywoodMovies.length === 0 && (
+          <p className="px-2 py-6 text-center text-sm text-gray-500">
+            No matching movies found in the catalog for that search.
+          </p>
+        )}
+
+        {hollywoodMovies.length > 0 && (
           <MovieList
-            key={movieName + index}
-            title={movieName}
-            movies={movieResults[index]}
+            title="Hollywood"
+            movies={hollywoodMovies}
             onMovieClick={onMovieClick}
           />
-        ))}
+        )}
+
+        {bollywoodMovies.length > 0 && (
+          <MovieList
+            title="Bollywood"
+            movies={bollywoodMovies}
+            onMovieClick={onMovieClick}
+          />
+        )}
       </div>
     </div>
   );

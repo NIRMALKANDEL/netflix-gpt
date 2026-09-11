@@ -68,21 +68,21 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 z-50 flex h-20 w-full items-center justify-between bg-linear-to-b from-black/90 via-black/50 to-transparent px-6 md:px-12">
+    <header className="fixed top-0 left-0 z-50 flex min-h-20 w-full items-center justify-between gap-2 bg-linear-to-b from-black/90 via-black/50 to-transparent px-3 py-3 sm:px-6 md:px-12">
       {/* Netflix Logo */}
       <img
         src={NETFLIX_LOGO_URL}
         alt="Netflix"
-        className="w-28 object-contain md:w-36"
+        className="w-20 shrink-0 object-contain sm:w-28 md:w-36"
       />
 
       {/* Right Side */}
       {user && window.location.pathname !== "/" && (
-        <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-3 md:gap-4">
+        <div className="flex flex-wrap items-center justify-end gap-1.5 sm:gap-3 md:gap-4">
           {/* Profile */}
           {showGptSearch && (
             <select
-              className="bg-black text-white border border-gray-600 focus:outline-none"
+              className="rounded border border-gray-600 bg-black px-1.5 py-1 text-xs text-white focus:outline-none sm:px-3 sm:py-1.5 sm:text-sm"
               onChange={handleLanguageChange}
             >
               {supportedLanguages.map((lang) => (
@@ -94,29 +94,31 @@ const Header = () => {
           )}
           <button
             onClick={handleGptSearchClick}
-            className="rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white
+            className="whitespace-nowrap rounded-md bg-red-600 px-2.5 py-1.5 text-xs font-semibold text-white
              transition-all duration-200 hover:bg-red-700 hover:scale-105
-             shadow-md shadow-red-600/20"
+             shadow-md shadow-red-600/20 sm:px-4 sm:py-2 sm:text-sm"
           >
             {showGptSearch ? "Home" : "GPT Search"}
           </button>
 
           <div className="group relative">
-            <img
-              src={
-                user?.photoURL ||
-                "https://avatars.githubusercontent.com/u/98464309?v=4"
-              }
-              alt="Profile"
-              className="h-9 w-9 cursor-pointer rounded-md object-cover
-               border border-gray-600 transition-all duration-200
-               group-hover:border-white group-hover:scale-105"
-            />
+            <button type="button" className="block" aria-label="Account menu">
+              <img
+                src={
+                  user?.photoURL ||
+                  "https://avatars.githubusercontent.com/u/98464309?v=4"
+                }
+                alt="Profile"
+                className="h-8 w-8 cursor-pointer rounded-md object-cover
+                 border border-gray-600 transition-all duration-200
+                 group-hover:border-white group-hover:scale-105 sm:h-9 sm:w-9"
+              />
+            </button>
 
             <div
               className="absolute right-0 top-full z-50 mt-3 hidden min-w-40
                rounded-md border border-gray-700 bg-black/95 px-4 py-3
-               shadow-xl group-hover:block"
+               shadow-xl group-hover:block group-focus-within:block"
             >
               <p className="truncate text-sm font-semibold text-white">
                 {user?.user?.displayName || "User"}
@@ -138,7 +140,7 @@ const Header = () => {
           {!showGptSearch && (
             <button
               onClick={handleSignOut}
-              className="rounded bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700"
+              className="whitespace-nowrap rounded bg-red-600 px-2.5 py-1.5 text-xs font-semibold text-white transition hover:bg-red-700 sm:px-4 sm:py-2 sm:text-sm"
             >
               Sign Out
             </button>

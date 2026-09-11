@@ -113,19 +113,19 @@ const Login = () => {
       <div className="fixed inset-0 -z-10 bg-black/60"></div>
 
       {/* Login Form */}
-      <div className="flex min-h-screen items-center justify-center px-4">
-        <div className="w-full max-w-md rounded-md bg-black/80 px-12 py-14">
-          <h1 className="mb-8 text-3xl font-bold text-white">
+      <div className="flex min-h-screen items-center justify-center px-3 sm:px-4">
+        <div className="w-full max-w-md rounded-md bg-black/80 px-6 py-8 sm:px-10 sm:py-12 md:px-12 md:py-14">
+          <h1 className="mb-6 text-2xl font-bold text-white sm:mb-8 sm:text-3xl">
             {showSignInForm ? "Sign In" : "Sign Up"}
           </h1>
 
-          <form onSubmit={handleButtonClick} className="flex flex-col gap-4">
+          <form onSubmit={handleButtonClick} className="flex flex-col gap-3 sm:gap-4">
             {!showSignInForm && (
               <input
                 ref={fullName}
                 type="text"
                 placeholder="Full Name"
-                className="rounded bg-gray-700 px-4 py-4 text-white placeholder-gray-400 outline-none focus:bg-gray-600"
+                className="rounded bg-gray-700 px-4 py-3 text-white placeholder-gray-400 outline-none focus:bg-gray-600 sm:py-4"
               />
             )}
 
@@ -133,26 +133,28 @@ const Login = () => {
               ref={email}
               type="email"
               placeholder="Email or phone number"
-              className="rounded bg-gray-700 px-4 py-4 text-white placeholder-gray-400 outline-none focus:bg-gray-600"
+              className="rounded bg-gray-700 px-4 py-3 text-white placeholder-gray-400 outline-none focus:bg-gray-600 sm:py-4"
             />
 
             <input
               ref={password}
               type="password"
               placeholder="Password"
-              className="rounded bg-gray-700 px-4 py-4 text-white placeholder-gray-400 outline-none focus:bg-gray-600"
+              className="rounded bg-gray-700 px-4 py-3 text-white placeholder-gray-400 outline-none focus:bg-gray-600 sm:py-4"
             />
 
-            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            {errorMessage && (
+              <p className="text-sm text-red-500 sm:text-base">{errorMessage}</p>
+            )}
 
             <button
               type="submit"
-              className="mt-4 rounded bg-red-600 py-3 font-bold text-white hover:bg-red-700"
+              className="mt-3 rounded bg-red-600 py-3 font-bold text-white hover:bg-red-700 sm:mt-4"
             >
               {showSignInForm ? "Sign In" : "Sign Up"}
             </button>
 
-            <div className="flex justify-between text-sm text-gray-400">
+            <div className="flex flex-wrap justify-between gap-2 text-xs text-gray-400 sm:text-sm">
               <label className="flex items-center gap-2">
                 <input type="checkbox" />
                 Remember me
@@ -162,7 +164,7 @@ const Login = () => {
             </div>
           </form>
 
-          <p className="mt-10 text-gray-400">
+          <p className="mt-8 text-sm text-gray-400 sm:mt-10 sm:text-base">
             {showSignInForm ? "New to Netflix?" : "Already have an account?"}{" "}
             <span
               onClick={toggleSignInForm}
